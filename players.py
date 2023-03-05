@@ -2,6 +2,7 @@ import random
 import time
 import pygame
 import math
+from copy import deepcopy
 
 class connect4Player(object):
 	def __init__(self, position, seed=0):
@@ -76,9 +77,34 @@ class stupidAI(connect4Player):
 			move[:] = [0]
 
 class minimaxAI(connect4Player):
+	def MaxDef(self,env,depth,move):
+		while not env.gameOver(env,move):
+			val = -math.inf
+			for childNode in env:
+				val = max(val,self.MinDef(childNode,depth-1))
+			return val 
+		return eval(env,move)
 
+		##return eval(env)
+	
+	def MinDef(self,env,depth,move):
+		while not env.gameOver(env,move):
+			val = math.inf
+			for childNode in env:
+				val = min(val,self.MaxDef(childNode,depth-1))
+			return val
+		return eval(env,move)
+	
+	
 	def play(self, env, move):
-		pass
+		env = deepcopy(env)
+		env.visualize = False
+
+		possible = env.topPosition >= 0
+		indices = []
+		for i, p in enumerate(possible):
+			if p: indices.append(i)
+		
 
 class alphaBetaAI(connect4Player):
 
