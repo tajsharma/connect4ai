@@ -99,11 +99,15 @@ class minimaxAI(connect4Player):
 	def play(self, env, move):
 		env = deepcopy(env)
 		env.visualize = False
+		depth = 6
 
 		possible = env.topPosition >= 0
 		indices = []
 		for i, p in enumerate(possible):
 			if p: indices.append(i)
+		
+		
+
 		
 
 class alphaBetaAI(connect4Player):
